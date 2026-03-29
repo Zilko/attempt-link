@@ -23,5 +23,9 @@ public:
     static int getRealAttempts(GJGameLevel*, std::unordered_set<int>&, bool);
     static std::string toLowercase(std::string);
     static void setHookEnabled(std::string_view, bool);
+    static int getDemonDifficulty(int);
+    static int difficultyToIndex(int);
+    static void saveFilter(Filter);
+    static Filter getFilter();
 
 };

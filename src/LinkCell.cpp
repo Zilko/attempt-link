@@ -53,11 +53,19 @@ bool LinkCell::init(bool isEditor) {
     auto toggler = CCMenuItemExt::createToggler(
         CCSprite::createWithSpriteFrameName("gj_linkBtnOff_001.png"),
         CCSprite::createWithSpriteFrameName("gj_linkBtn_001.png"),
-        [this](CCMenuItemToggler* toggler) {
+        [this, levelName](CCMenuItemToggler* toggler) {
             if (!toggler->isToggled()) {
                 Manager::linkLevels(m_level, m_linkTo);
+
+                auto notif = Notification::create(fmt::format("{} has been linked!", levelName), NotificationIcon::Success);
+                notif->setTime(0.5f);
+                notif->show();
             } else {
                 Manager::unlinkLevels(m_level, m_linkTo);
+
+                // auto notif = Notification::create("Level unlinked");
+                // notif->setTime(0.5f);
+                // notif->show();
             }
         }
     );
