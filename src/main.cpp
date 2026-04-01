@@ -47,6 +47,10 @@ class $modify(FLAlertLayer) {
 class $modify(LevelInfoLayer) {
 
     void onLevelInfo(CCObject* sender) {
+        if (Manager::getSetting<"disable", bool>()) {
+            return LevelInfoLayer::onLevelInfo(sender);
+        }
+
         auto& m = Manager::get();
         auto set = std::unordered_set<int>{};
 
@@ -102,6 +106,10 @@ class $modify(LevelInfoLayer) {
 class $modify(EditLevelLayer) {
 
     void onLevelInfo(CCObject* sender) {
+        if (Manager::getSetting<"disable", bool>()) {
+            return EditLevelLayer::onLevelInfo(sender);
+        }
+
         auto& m = Manager::get();
         auto set = std::unordered_set<int>{};
 
@@ -157,6 +165,10 @@ class $modify(EditLevelLayer) {
 class $modify(PlayLayer) {
 
     void resetLevel() {
+        if (!Manager::getSetting<"count-lost-attempts", bool>()) {
+            return PlayLayer::resetLevel();
+        }
+
         auto prevAttempts = m_level->m_attempts.value();
 
         PlayLayer::resetLevel();

@@ -171,6 +171,10 @@ int Manager::getAttempts(GJGameLevel* level, std::unordered_set<int>& ignores, b
 }
 
 int Manager::getRealAttempts(GJGameLevel* level, std::unordered_set<int>& ignores, bool lostAttempts) {
+    if (lostAttempts && !getSetting<"count-lost-attempts", bool>()) {
+        return 0;
+    }
+
     auto id = EditorIDs::getID(level);
 
     if (ignores.contains(id)) {

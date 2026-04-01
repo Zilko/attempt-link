@@ -28,4 +28,16 @@ public:
     static void saveFilter(Filter);
     static Filter getFilter();
 
+    template <string::ConstexprString S, typename T>
+    static const T& getSetting() {
+        static T value = (
+            listenForSettingChanges<T>(S.data(), [](T val) {
+                value = val;
+            }),
+            Mod::get()->getSettingValue<T>(S.data())
+        );
+
+        return value;
+    }
+
 };
