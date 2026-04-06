@@ -46,6 +46,12 @@ class $modify(FLAlertLayer) {
 
 class $modify(LevelInfoLayer) {
 
+    static void onModify(auto& self) {
+        if (!self.setHookPriorityAfterPost("LevelInfoLayer::init", "camila314.pathfinder")) {
+            geode::log::warn("Failed to set hook priority.");
+        }
+    }
+
     void onLevelInfo(CCObject* sender) {
         if (Manager::getSetting<"disable", bool>()) {
             return LevelInfoLayer::onLevelInfo(sender);
@@ -85,6 +91,10 @@ class $modify(LevelInfoLayer) {
 
         auto refBtn = menu->getChildByID("list-button");
 
+        if (auto btn = menu->getChildByID("pathfinder-button")) {
+            refBtn = btn;
+        }
+
         if (!refBtn) {
             return true;
         }
@@ -94,7 +104,7 @@ class $modify(LevelInfoLayer) {
         });
         btn->setID("button"_spr);
         btn->setScale(0.975f);
-        btn->setPosition(refBtn->getPosition() + CCPoint{0, 34});
+        btn->setPosition(refBtn->getPosition() + CCPoint{0, 16 + refBtn->getScaledContentHeight() / 2.f});
 
         menu->addChild(btn);
 
